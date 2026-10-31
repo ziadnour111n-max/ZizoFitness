@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ZIZO FITNESS</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial;background:#101820;color:white;padding:20px;transition:.3s}
+body.light{background:#f2f4f7;color:#17202a}
+header{text-align:center;padding:25px 10px}
+h1{color:#35d07f;font-size:32px}
+.card{background:#1d2935;padding:18px;border-radius:18px;margin:14px 0}
+.light .card{background:white}
+button{background:#35d07f;border:0;padding:12px 18px;border-radius:12px;font-weight:bold;margin:5px;color:#102018}
+input,select{padding:12px;border-radius:10px;border:1px solid #777;width:100%;margin:8px 0;font-size:16px}
+.light input,.light select{background:white;color:#17202a}
+nav{display:flex;justify-content:center;flex-wrap:wrap;gap:5px}
+nav button{flex:1}
+small{color:#35d07f}
+</style>
+</head>
+<body>
+<header>
+<h1>💪 ZIZO FITNESS</h1>
+<p id="welcome">رحلتك لجسم أقوى تبدأ هنا</p>
+<nav>
+<button onclick="lang()">العربية / English</button>
+<button onclick="theme()">نهار / ليل</button>
+</nav>
+</header>
+
+<div class="card">
+<h2 id="workTitle">🏋️ تمارين اليوم</h2>
+<p>تمارين الضغط — 3 مجموعات</p>
+<p>تمارين السكوات — 3 مجموعات</p>
+<p>تمارين البطن — 3 مجموعات</p>
+<button onclick="done()">أنهيت التمرين ✓</button>
+<p id="doneText"></p>
+</div>
+
+<div class="card">
+<h2>💧 شرب المياه</h2>
+<h3 id="water">0 / 8 أكواب</h3>
+<button onclick="addWater()">+ أضف كوب مياه</button>
+<button onclick="resetWater()">إعادة التصفير</button>
+</div>
+
+<div class="card">
+<h2>⚖️ متابعة الوزن</h2>
+<input id="weight" type="number" placeholder="اكتب وزنك بالكيلو">
+<button onclick="saveWeight()">حفظ الوزن</button>
+<p id="weightText">لم يتم تسجيل الوزن بعد</p>
+</div>
+
+<div class="card">
+<h2>🥗 نصيحة غذائية</h2>
+<p>اهتم بالبروتين والخضروات واشرب مياه كفاية، وخلي أكلك متوازن.</p>
+</div>
+
+<footer style="text-align:center;padding:20px">
+<small>© ZIZO FITNESS</small>
+</footer>
+
+<script>
+let water=Number(localStorage.water||0);
+let count=Number(localStorage.count||0);
+let savedWeight=localStorage.weight||"";
+let english=false;
+
+function update(){
+document.getElementById("water").innerText=water+" / 8 أكواب";
+document.getElementById("doneText").innerText=count+" تمرين مكتمل";
+if(savedWeight)document.getElementById("weightText").innerText="آخر وزن محفوظ: "+savedWeight+" كجم";
+}
+function addWater(){water=Math.min(8,water+1);localStorage.water=water;update()}
+function resetWater(){water=0;localStorage.water=0;update()}
+function done(){count++;localStorage.count=count;update()}
+function saveWeight(){
+let v=document.getElementById("weight").value;
+if(v>0){savedWeight=v;localStorage.weight=v;update()}
+}
+function theme(){document.body.classList.toggle("light");localStorage.theme=document.body.classList.contains("light")?"light":"dark"}
+function lang(){
+english=!english;
+document.documentElement.lang=english?"en":"ar";
+document.documentElement.dir=english?"ltr":"rtl";
+document.getElementById("welcome").innerText=english?"Your stronger journey starts here":"رحلتك لجسم أقوى تبدأ هنا";
+document.getElementById("workTitle").innerText=english?"🏋️ Today's workout":"🏋️ تمارين اليوم";
+}
+if(localStorage.theme==="light")document.body.classList.add("light");
+update();
+</script>
+</body>
+  </html>
